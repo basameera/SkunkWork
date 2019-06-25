@@ -6,4 +6,4 @@ class swTest():
         print('swTest init')
 
     def compile(self):
-        print('swTest is working.')
+        print('swTest is working. *')

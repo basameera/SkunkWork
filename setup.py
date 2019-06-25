@@ -21,25 +21,34 @@ Full Package Structure - https://python-packaging.readthedocs.io/en/latest/every
 
 from setuptools import setup
 import re
+
 def get_property(prop, project):
     result = re.search(
         r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open(project + '/__init__.py').read())
     return result.group(1)
 
 
-project_name = 'SkunkWork'
+project_name = 'skunkwork'
 
-dependancy_packages = [
-    'torch',
-]
+
+def read_req(fname):
+    req_list = []
+    with open(fname + '/requirements.txt') as f:
+        content = f.readlines()
+        for line in content:
+            req_list.append(line.split('==')[0])
+    return req_list
+
+
+dependancy_packages = read_req(project_name)
 
 setup(
-    name="SkunkWork",
-    version=get_property('__version__', project_name),
+    name=project_name,
+    version = get_property('__version__', project_name),
     description="Neural Network Trainer Package for Pytorch.",
     url="https://github.com/basameera/SkunkWork",
     author=get_property('__author__', project_name),
     author_email=get_property('__author_email__', project_name),
-    packages=["SkunkWork"],
+    packages=[project_name],
     # install_requires=dependancy_packages
 )

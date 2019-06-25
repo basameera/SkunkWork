@@ -1,7 +1,7 @@
-import SkunkWork
-from SkunkWork.skunkwork import swTest
+import skunkwork
+from skunkwork.skunkwork import swTest
 
 if __name__ == "__main__":
-    print(SkunkWork.__version__)
+    print(skunkwork.__version__)
     swt = swTest()
     swt.compile()
