@@ -106,8 +106,8 @@ class nnTrainer():
                 pred = torch.round(pred)
                 target = torch.round(target)
 
-                output.append((pred.view(-1, 9, 9).cpu().numpy(),
-                               target.view(-1, 9, 9).cpu().numpy()))
+                output.append((pred.cpu().numpy(),
+                               target.cpu().numpy()))
 
             return output
 
@@ -176,13 +176,9 @@ class nnTrainer():
 
                 # accuracy - cross entropy
                 # get the index of the max log-probability
-                # pred = output.argmax(dim=1, keepdim=True)
-                # correct += pred.eq(target.view_as(pred)).sum().item()
+                pred = output.argmax(dim=1, keepdim=True)
+                correct += pred.eq(target.view_as(pred)).sum().item()
 
-                # MSE loss acc
-                pred = torch.round(output)
-                target = torch.round(target)
-                correct += self.checkSudokuIsCorrect(pred, target)
 
             # for crossEntropy
             self.valid_loss /= len(validation_loader.dataset)
@@ -190,8 +186,6 @@ class nnTrainer():
             # Adding loss to history
             self.valid_loss_hist.append(self.valid_loss)
 
-        if correct>0:
-            clog('****************** CORRECT found ', correct)
 
         if show_progress:
             clog('{} set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
@@ -246,21 +240,6 @@ class nnTrainer():
 
     def predict(self, test_loader, show_progress=True):
         self.validation_step(test_loader, show_progress, name='Prediction')
-
-    def checkSudokuIsCorrect(self, pred, target):
-        pred = pred.int()
-        target = target.int()
-        eq = torch.eq(pred, target)
-
-        if len(eq.size()) > 2:
-            # Only use following step for CNNs
-            eq = eq.view(-1, 9*9)
-        denom = eq.size(1)
-        eq = torch.sum(eq, dim=1)/denom
-        # print( eq.shape, denom )
-
-        # raise NotImplementedError
-        return eq.sum().item()
 
     def save_loss(self):
         path = self.results_path + '/' + self.model_name + '_loss_data.json'
