@@ -22,8 +22,8 @@ Full Package Structure - https://python-packaging.readthedocs.io/en/latest/every
 
 
 from setuptools import setup
+import os
 import re
-
 def get_property(prop, project):
     result = re.search(
         r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open(project + '/__init__.py').read())
@@ -33,12 +33,16 @@ def get_property(prop, project):
 project_name = 'skunkwork'
 
 
-def read_req(fname):
+def read_req(project_name):
     req_list = []
-    with open(fname + '/requirements.txt') as f:
-        content = f.readlines()
-        for line in content:
-            req_list.append(line.split('==')[0])
+    fname = project_name + '/requirements.txt'
+    if os.path.isfile(fname):
+        with open(fname) as f:
+            content = f.readlines()
+            for line in content:
+                req_list.append(line.split('==')[0])
+    else:
+        raise AttributeError('No \'requirements.txt\' file. Please run \'./skunkwork/piprequire\' to generate it.')
     return req_list
 
 
