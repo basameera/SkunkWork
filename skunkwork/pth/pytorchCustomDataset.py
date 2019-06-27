@@ -16,10 +16,18 @@ from torch.utils.data import DataLoader, random_split
 import os
 from PIL import Image
 import numpy as np
-from .utils import getListOfFiles, getSplitByPercentage
+from ..utils import getListOfFiles, clog
+from .utils import getSplitByPercentage
 import pandas as pd
 import numpy as np
 import time
+
+class testClass():
+    def __init__(self, name):
+        self.name = name
+
+    def getName(self):
+        clog(self.name)
 
 class ImageClassDatasetFromFolder(Dataset):
     """From Tutorial - https://totoys.github.io/posts/2019-4-10-what-is-torch.utils.data.Dataset-really/
@@ -207,10 +215,10 @@ def main():
     print(len(custom_dataset))
     print(custom_dataset.getClasses())
     print(custom_dataset.getInvClasses())
-    print(getSplitByPercentage(0.8, len(custom_dataset)))
+    print(getSplitByPercentage(len(custom_dataset)))
 
     train_dataset, val_dataset, test_dataset = random_split(
-        custom_dataset, getSplitByPercentage(0.8, len(custom_dataset)))
+        custom_dataset, getSplitByPercentage(len(custom_dataset)))
 
     train_loader = DataLoader(dataset=train_dataset,
                               batch_size=32,
@@ -242,7 +250,7 @@ def main():
         data_folder_path, int_classes=True, norm_data=True, norm_mean=train_mean, norm_std=train_std)
 
     train_dataset, val_dataset, test_dataset = random_split(
-        custom_dataset, getSplitByPercentage(0.8, len(custom_dataset)))
+        custom_dataset, getSplitByPercentage(len(custom_dataset)))
 
     train_loader = DataLoader(dataset=train_dataset,
                               batch_size=32,

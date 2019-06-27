@@ -13,4 +13,4 @@
 /results/
 
 /mainpackage/
-package_test.py
+test_mainpackage.py

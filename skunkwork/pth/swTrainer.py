@@ -2,7 +2,7 @@
 
 # imports
 from __future__ import print_function
-from .utils import prettyPrint, clog
+from ..utils import clog
 import json
 import os
 
@@ -21,6 +21,13 @@ all_metrics = [
     'loss',
     'accuracy'
 ]
+
+class testClass():
+    def __init__(self, name):
+        self.name = name
+
+    def getName(self):
+        clog(self.name)
 
 class nnTrainer():
 
