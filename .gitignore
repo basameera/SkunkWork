@@ -11,3 +11,6 @@
 # vscode
 .vscode
 /results/
+
+/mainpackage/
+package_test.py

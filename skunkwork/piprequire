@@ -1,1 +1,15 @@
-echo piprequire
+#!/bin/bash
+# gitbass Bash script, by bassandaruwan
+# Easy handling of git pull, add, commit and push
+echo 
+echo ===== piprequire =====
+echo
+
+if [ $# -eq 0 ]; then
+   echo ERROR: Need commit message as argument
+   exit
+fi
+
+echo ">>" Commit message: "$1"
+echo
+echo ">>" Checking git status
