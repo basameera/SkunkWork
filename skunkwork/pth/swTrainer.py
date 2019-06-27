@@ -14,7 +14,7 @@ from torch import cuda
 # Importing other libraries
 import numpy as np
 import matplotlib.pyplot as plt
-import time
+
 # custom classes and functions
 
 all_metrics = [

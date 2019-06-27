@@ -20,7 +20,6 @@ from ..utils import getListOfFiles, clog
 from .utils import getSplitByPercentage
 import pandas as pd
 import numpy as np
-import time
 
 class testClass():
     def __init__(self, name):
