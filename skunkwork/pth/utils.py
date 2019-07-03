@@ -1,6 +1,8 @@
 """SkunkWork Pytorch Utils"""
 from PIL import Image
 import warnings
+from ..utils import getListOfFiles
+import os
 
 
 def getSplitByPercentage(len=0, train_percentage=0.8):
@@ -13,27 +15,38 @@ def getSplitByPercentage(len=0, train_percentage=0.8):
         raise ValueError('Value should be between 0 and 1.')
 
 
-def imgResize(source_folder='data', destination_folder='save', size=256, keep_aspect_ratio=True):
+def imgResize(source_folder='data', destination_folder='save', size=256, keep_aspect_ratio=True, use_og_name=True):
     fileList = getListOfFiles(source_folder)
 
     for id, path in enumerate(fileList):
-        print(id, ' | ', path, end=' | ')
+
         im = Image.open(path)
         width, height = im.size
-        print((width, height), end=' -> ')
 
-        new_size = (size, size)
-        if keep_aspect_ratio:
-            if height < width:
-                new_size = ((size * width) // height, size)
-            if height > width:
-                new_size = (size, (size * height) // width)
+        if isinstance(size, int):
+            new_size = (size, size)
+            if keep_aspect_ratio:
+                if height < width:
+                    new_size = ((size * width) // height, size)
+                if height > width:
+                    new_size = (size, (size * height) // width)
+        if isinstance(size, tuple):
+            new_size = size
 
-        print(new_size)
         im = im.resize(new_size, Image.ANTIALIAS)
-        im.save(destination_folder+'/'+str(id)+'.jpg')
+        fname = destination_folder+'/' + \
+            str(id) + '.' + os.path.basename(path).split('.')[1]
+        if use_og_name:
+            fname = destination_folder+'/'+os.path.basename(path)
+        if not os.path.exists(destination_folder):
+            os.makedirs(destination_folder)
+        print(id, ' | ', (width, height), ' -> ', new_size,
+              ' | ', os.path.basename(path), '\t\t-> ', fname)
+        im.save(fname)
 
 # pytorch model summary
+
+
 def model_summary(model, *input_size, batch_size=-1, device="cuda"):
 
     def register_hook(module):
@@ -101,7 +114,8 @@ def model_summary(model, *input_size, batch_size=-1, device="cuda"):
         h.remove()
 
     print("\n----------------------------------------------------------------")
-    line_new = "{:>20}  {:>25} {:>15}".format("Layer (type)", "Output Shape", "Param #")
+    line_new = "{:>20}  {:>25} {:>15}".format(
+        "Layer (type)", "Output Shape", "Param #")
     print(line_new)
     print("================================================================")
     total_params = 0
