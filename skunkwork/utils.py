@@ -4,11 +4,11 @@ import datetime
 import warnings
 
 
-def clog(*args):
+def clog(*args, end='\n'):
     msg = '>>> '+str(datetime.datetime.now()).split('.')[0] + ' :'
     for s in args:
         msg = msg + ' ' + str(s)
-    print(msg)
+    print(msg, end=end)
 
 
 def printLine(len, end='\n'):
@@ -49,7 +49,7 @@ def getMaxLen(input, output, prev_indent=0):
         raise TypeError('Input should be a Dictionary object.')
 
 
-def swPPrint(input, heading=''):
+def pprint(input, heading=''):
     """SkunkWork Pretty Print 
 
     Arguments:
