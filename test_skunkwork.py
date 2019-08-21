@@ -6,6 +6,9 @@ from skunkwork.pth.pth import pth_test_func
 from skunkwork.pth.pytorchCustomDataset import testClass as tc1
 from skunkwork.pth.swTrainer import testClass as tc2
 
+from skunkwork.djitellopy import Tello, BackgroundFrameRead
+tello = Tello(log_off=True)
+
 if __name__ == "__main__":
     clog(skunkwork.__version__)
     swt = swTest()
