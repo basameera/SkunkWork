@@ -2,10 +2,12 @@
 import os
 import datetime
 import warnings
+import subprocess
+import math
 
 
 def clog(*args, end='\n'):
-    msg = '>>> '+str(datetime.datetime.now()).split('.')[0] + ' :'
+    msg = '>>> '+str(datetime.datetime.now()).split('.')[0][2:] + ' :'
     for s in args:
         msg = msg + ' ' + str(s)
     print(msg, end=end)
@@ -141,6 +143,52 @@ def getListOfFiles(sourcePath, sort=False, ext=['.jpg', '.png']):
                     allFiles.append(fullPath)
 
     return allFiles
+
+
+def convert_size(size_bytes):
+    size_bytes = int(size_bytes)
+    if size_bytes == 0:
+        return size_bytes, "0B"
+    size_name = ("B", "K", "M", "G", "T", "P", "E", "Z", "Y")
+    i = int(math.floor(math.log(size_bytes, 1024)))
+    p = math.pow(1024, i)
+    s = round(size_bytes / p, 1)
+    return size_bytes, "%s%s" % (s, size_name[i])
+
+
+def getFolderSize(sourcePath, sort=True):
+    """getFolderSize
+
+    Arguments:
+        sourcePath {[type]} -- [description]
+
+    """
+
+    listOfFile = os.listdir(sourcePath)
+
+    if sort:
+        listOfFile = sorted(os.listdir(sourcePath))
+
+    allFiles = list()
+    # Iterate over a4ll the entries
+    for entry in listOfFile:
+        # Create full path
+        fullPath = os.path.join(sourcePath, entry)
+        # If entry is a directory then get the list of files in this directory
+        if not entry.startswith('.'):
+            # size = subprocess.check_output(['du', '-sh', fullPath]).split()[0].decode('utf-8')
+            size = subprocess.check_output(
+                ['du', '-s', fullPath]).split()[0].decode('utf-8')
+            size_in_bytes, size = convert_size(int(size)*1024)
+            allFiles.append((size_in_bytes, size, fullPath))
+
+    import heapq
+    heapq.heapify(allFiles)
+    out_list = list()
+    while allFiles:
+        pop = heapq.heappop(allFiles)
+        out_list.append((pop[1], pop[2]))
+    return out_list
 
 
 def main():
