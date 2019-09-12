@@ -4,6 +4,63 @@ import datetime
 import warnings
 import subprocess
 import math
+import argparse
+import string
+
+
+def arg_reform(params):
+    alphabet = list(string.ascii_lowercase)
+    alphabet.remove('h')
+    if len(params) > 26:
+        raise ValueError(
+            'Can\'t handle more than 25 args.'.format(len(alphabet)))
+        return
+
+    if isinstance(params, dict):
+        arg_dict = dict()
+        for i, (key, value) in enumerate(params.items()):
+            arg_dict[alphabet[i]] = (
+                key + ' (default: {})'.format(value), value)
+        return arg_dict
+    else:
+        raise TypeError('params should be dict type')
+
+
+def simple_cmd_args(cmd_params):
+    """[summary]
+    
+    # using dict
+    cmd_params = dict(test=1,
+                      wait_length=0,
+                      stream_offset=0,
+                      stream_length=100,
+                      dataset_id=1,
+                      save='F')
+
+    args = simple_cmd_args(cmd_params)
+
+    Arguments:
+        cmd_params {[type]} -- [description]
+    
+    Raises:
+        TypeError: [description]
+    
+    Returns:
+        [type] -- [description]
+    """
+    params = arg_reform(cmd_params)
+    # check if params is dict
+    if isinstance(params, dict):
+        parser = argparse.ArgumentParser(description=__file__)
+        for key, value in params.items():
+            parser.add_argument('-'+key, help=value[0], default=value[1])
+        output = dict()
+
+        for key1, key2 in dict(zip(cmd_params, parser.parse_args().__dict__)).items():
+            output[key1] = parser.parse_args().__dict__[key2]
+        return output
+    else:
+        raise TypeError('params should be dict')
 
 
 def clog(*args, end='\n'):
