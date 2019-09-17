@@ -2,7 +2,7 @@
 # gitbass Bash script, by bassandaruwan
 # Easy handling of git pull, add, commit and push
 echo 
-echo ===== Git-Bass =====
+echo ===== Easy-Git =====
 echo
 
 if [ $# -eq 0 ]; then
