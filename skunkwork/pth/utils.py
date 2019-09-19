@@ -53,8 +53,7 @@ def imgResize(source_folder='data', destination_folder='save', size=256, keep_as
 # pytorch model summary
 
 
-def model_summary(model, *input_size, batch_size=-1, device="cuda"):
-
+def model_summary(model, *input_size, batch_size=-1, device="cuda", show=True):
     def register_hook(module):
 
         def hook(module, input, output):
@@ -119,14 +118,26 @@ def model_summary(model, *input_size, batch_size=-1, device="cuda"):
     for h in hooks:
         h.remove()
 
-    print("\n----------------------------------------------------------------")
-    line_new = "{:>20}  {:>25} {:>15}".format(
-        "Layer (type)", "Output Shape", "Param #")
-    print(line_new)
-    print("================================================================")
+    if show:
+        print("\n----------------------------------------------------------------")
+        line_new = "{:>20}  {:>25} {:>15}".format(
+            "Layer (type)", "Output Shape", "Param #")
+        print(line_new)
+        print("================================================================")
     total_params = 0
     total_output = 0
     trainable_params = 0
+
+    mdl_layers = []
+
+    mdl_layers.append(('Input', '[{}, {}, {}, {}]'.format(
+        batch_size, input_size[0][0], input_size[0][1], input_size[0][2]), '0'))
+    print("{:>20}  {:>25} {:>15}".format(
+        'Input',
+        '[{}, {}, {}, {}]'.format(
+            batch_size, input_size[0][0], input_size[0][1], input_size[0][2]),
+        '0')
+    )
     for layer in summary:
         # input_shape, output_shape, trainable, nb_params
         line_new = "{:>20}  {:>25} {:>15}".format(
@@ -134,13 +145,17 @@ def model_summary(model, *input_size, batch_size=-1, device="cuda"):
             str(summary[layer]["output_shape"]),
             "{0:,}".format(summary[layer]["nb_params"]),
         )
+
+        mdl_layers.append((layer, str(summary[layer]["output_shape"]), "{0:,}".format(
+            summary[layer]["nb_params"])))
+
         total_params += summary[layer]["nb_params"]
         total_output += np.prod(summary[layer]["output_shape"])
         if "trainable" in summary[layer]:
             if summary[layer]["trainable"] == True:
                 trainable_params += summary[layer]["nb_params"]
-        print(line_new)
-
+        if show:
+            print(line_new)
     # assume 4 bytes/number (float on cuda).
     total_input_size = abs(np.prod(input_size) *
                            batch_size * 4. / (1024 ** 2.))
@@ -149,18 +164,29 @@ def model_summary(model, *input_size, batch_size=-1, device="cuda"):
     total_params_size = abs(total_params.numpy() * 4. / (1024 ** 2.))
     total_size = total_params_size + total_output_size + total_input_size
 
-    print("================================================================")
-    print("Total params: {0:,}".format(total_params))
-    print("Trainable params: {0:,}".format(trainable_params))
-    print(
-        "Non-trainable params: {0:,}".format(total_params - trainable_params))
-    print("----------------------------------------------------------------")
-    print("Input size (MB): %0.2f" % total_input_size)
-    print("Forward/backward pass size (MB): %0.2f" % total_output_size)
-    print("Params size (MB): %0.2f" % total_params_size)
-    print("Estimated Total Size (MB): %0.2f" % total_size)
-    print("----------------------------------------------------------------\n")
-# main
+    if show:
+        print("================================================================")
+        print("Total params: {0:,}".format(total_params))
+        print("Trainable params: {0:,}".format(trainable_params))
+        print(
+            "Non-trainable params: {0:,}".format(total_params - trainable_params))
+        print("----------------------------------------------------------------")
+        print("Input size (MB): %0.2f" % total_input_size)
+        print("Forward/backward pass size (MB): %0.2f" % total_output_size)
+        print("Params size (MB): %0.2f" % total_params_size)
+        print("Estimated Total Size (MB): %0.2f" % total_size)
+        print("----------------------------------------------------------------\n")
+
+    mdl_summary = dict()
+    mdl_summary['layers'] = mdl_layers
+    mdl_summary['total_params'] = float(total_params.numpy())
+    mdl_summary['trainable_params'] = float(trainable_params.numpy())
+
+    mdl_summary['total_input_size_MB'] = total_input_size
+    mdl_summary['total_output_size_MB'] = total_output_size
+    mdl_summary['total_params_size_MB'] = total_params_size
+
+    return mdl_summary
 
 
 def main():

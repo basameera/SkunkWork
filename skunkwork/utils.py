@@ -6,6 +6,17 @@ import subprocess
 import math
 import argparse
 import string
+import json
+
+
+def json_read(filename):
+    with open(filename) as f_in:
+        return(json.load(f_in))
+
+
+def json_write(filename, data):
+    with open(filename, 'w', encoding='utf-8') as outfile:
+        json.dump(data, outfile, ensure_ascii=False, indent=2)
 
 
 def arg_reform(params):
@@ -28,7 +39,7 @@ def arg_reform(params):
 
 def simple_cmd_args(cmd_params):
     """[summary]
-    
+
     # using dict
     cmd_params = dict(test=1,
                       wait_length=0,
@@ -41,10 +52,10 @@ def simple_cmd_args(cmd_params):
 
     Arguments:
         cmd_params {[type]} -- [description]
-    
+
     Raises:
         TypeError: [description]
-    
+
     Returns:
         [type] -- [description]
     """
@@ -70,10 +81,10 @@ def clog(*args, end='\n'):
     print(msg, end=end)
 
 
-def printLine(len, end='\n'):
+def printLine(len, symbol='=', end='\n'):
     if isinstance(len, int):
         for _ in range(len):
-            print('=', end='')
+            print(symbol, end='')
         print(end, end='')
     else:
         raise TypeError('Input should be an int value.')
@@ -165,7 +176,7 @@ def prettyPrint(input, heading='', prev_indent=0):
 
         # footer
         if prev_indent == 0:
-            printLine(maxFooterLen + 2)
+            printLine(maxFooterLen + 2, symbol='-')
 
     else:
         raise TypeError('Input should be a Dictionary object.')
