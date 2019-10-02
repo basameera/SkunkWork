@@ -17,6 +17,8 @@ echo
 echo ===== Easy-Git =====
 echo
 
+echo $#
+
 if [ $# -gt 0 ]; then
     case "$1" in
     -h | --help)
@@ -30,40 +32,40 @@ if [ $# -gt 0 ]; then
     -c)
         shift
         echo "*** only git add & commit"
-        echo 
+        echo
 
         if [ $# -eq 1 ]; then
-            echo ">>" Commit message: "$1"
+            echo ">>" "Commit message:" "$1"
             echo
 
             echo
-            echo ">>" Checking git status
+            echo ">>" "Checking git status"
             echo
             # git status
 
             echo
-            echo ">>" Git add
+            echo ">>" "Git add"
             echo
             # git add .
 
             echo
-            echo ">>" Git commit
+            echo ">>" "Git commit"
             echo
             # git commit -m "$1"
 
-
         else
+
             echo "Commit message required"
         fi
         exit 0
         ;;
     -p)
         echo "*** only git push"
-        echo 
+        echo
 
         if [ $# -eq 0 ]; then
             echo
-            echo ">>" Git push
+            echo ">> Git push"
             echo
             # git push
 
@@ -79,7 +81,7 @@ fi
 
 if [ $# -eq 0 ]; then
     echo
-    echo ">>" Checking git status
+    echo ">>" "Checking git status"
     echo
     git status
     # echo ERROR: Need commit message as argument
@@ -87,35 +89,35 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ $# -eq 1 ]; then
-    echo ">>" Commit message: "$1"
+    echo ">>" "Commit message:" "$1"
     echo
     echo
-    echo ">>" Git pull
+    echo ">>" "Git pull"
     echo
     # git pull
 
     echo
-    echo ">>" Checking git status
+    echo ">>" "Checking git status"
     echo
     # git status
 
     echo
-    echo ">>" Git add
+    echo ">>" "Git add"
     echo
     # git add .
 
     echo
-    echo ">>" Git commit
+    echo ">>" "Git commit"
     echo
     # git commit -m "$1"
 
     echo
-    echo ">>" Git push
+    echo ">>" "Git push"
     echo
     # git push
 
     echo
-    echo ">>" Checking git status
+    echo ">>" "Checking git status"
     echo
     # git status
 fi
