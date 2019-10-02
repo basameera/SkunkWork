@@ -1,13 +1,9 @@
-# main module
-# from .skunkwork import *
+from .skunkwork import *
+from .utils import *
+from .cv import *
 
-# basic module
-# from .utils import *
+from .__version__ import __version__
 
-# pytorch trainer modules
-# from .pytorchCustomDataset import *
-# from .swTrainer import *
-
-__version__ = '0.0.3'
+__version__ = __version__
 __author__ = 'Sameera Sandaruwan'
 __author_email__ = 'basameera@pm.me'

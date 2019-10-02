@@ -7,6 +7,7 @@ import math
 import argparse
 import string
 import json
+from blessings import Terminal
 
 
 def info(obj):
@@ -132,19 +133,19 @@ def pprint(input, heading=''):
     Arguments:
         input {dict}
 
-    TODO: set max header-footer dash length to the length of the console
     """
-    warnings.warn(
-        'Set max header-footer dash length to the length of the console')
     prettyPrint(input, heading=heading)
 
 
 def prettyPrint(input, heading='', prev_indent=0):
-
+    terminal = Terminal()
+    max_terminal_width = terminal.width
     if isinstance(input, dict):
         zzz = []
         getMaxLen(input, zzz)
-        maxFooterLen = max(zzz)
+        maxFooterLen = min([max(zzz), max_terminal_width])
+        if max(zzz) > max_terminal_width:
+            maxFooterLen -= 2
 
         maxKeyLen = 0
         maxValLen = 0
@@ -270,6 +271,7 @@ def main():
     config = {
         "name": "Mnist_LeNet",
         "n_gpu": 1,
+        "extra": [n for n in range(100)],
 
         "arch": {
             "type": "MnistModel",
@@ -316,6 +318,8 @@ def main():
             "tensorboardX": True,
         }
     }
+
+    pprint(config, 'config')
 
 
 # run

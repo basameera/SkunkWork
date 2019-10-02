@@ -1,8 +1,13 @@
 import cv2 as cv
 import numpy as np
+import warnings
 
 
-def image_resize(img, scale_percent=50):
+def undistort_image(img, mtx, dist):
+    return cv.undistort(img, mtx, dist, None)
+
+
+def resize_image(img, scale_percent=50):
     width = int(img.shape[1] * scale_percent / 100)
     height = int(img.shape[0] * scale_percent / 100)
     dim = (width, height)
@@ -185,7 +190,7 @@ def eulerAnglesToRotationMatrix(theta, deg=False):
     """## euler convenstion = X-Y-Y (alpha, beta, gamma)
 
     Arguments:
-        theta {[type]} -- [description]
+        theta  -- (alpha, beta, gamma)
 
     Returns:
         [type] -- [description]
@@ -214,7 +219,36 @@ def eulerAnglesToRotationMatrix(theta, deg=False):
     return R
 
 
-def warp_imgs(img_n, euler=[0, 0, 0], show=False):
+def rotationMatrixToEulerAngles(R):
+    """X-Y-Z
+
+    Arguments:
+        R {[type]} -- [description]
+
+    Returns:
+        [type] -- [description]
+    """
+    assert(isRotationMatrix(R))
+
+    sy = math.sqrt(R[0, 0] * R[0, 0] + R[1, 0] * R[1, 0])
+
+    singular = sy < 1e-6
+
+    if not singular:
+        x = math.atan2(R[2, 1], R[2, 2])
+        y = math.atan2(-R[2, 0], sy)
+        z = math.atan2(R[1, 0], R[0, 0])
+    else:
+        x = math.atan2(-R[1, 2], R[1, 1])
+        y = math.atan2(-R[2, 0], sy)
+        z = 0
+
+    return np.array([x, y, z])
+
+
+def warp_image(img_n, euler=[0, 0, 0], camera_matrix=None, z_offset=None, show=False):
+    warnings.warn(
+        'Still need work with camera matrix when its not exteranlly given!')
     '''
     euler: x, y, z
     '''
@@ -232,14 +266,29 @@ def warp_imgs(img_n, euler=[0, 0, 0], show=False):
 
     trans = np.matmul(R, translation)
 
-    # 4 - z offset
-    trans[2, 2] += h
+    # if camera_matrix is None:
+    #     camera_matrix = np.array([
+    #         [h, 0, h/2],
+    #         [0, h, h/2],
+    #         [0, 0, 1]
+    #     ], dtype=np.float)
 
-    camera_matrix = np.array([
-        [h, 0, h/2],
-        [0, h, h/2],
-        [0, 0, 1]
-    ], dtype=np.float)
+    # camera_matrix = np.array([
+    #     [w, 0, w/2],
+    #     [0, h, h/2],
+    #     [0, 0, 1]
+    # ], dtype=np.float)
+
+    # 4 - z offset
+    # if z_offset is None:
+    #     if camera_matrix is None:
+    #         z_offset = h
+    #     else:
+    #         z_offset = (camera_matrix[0, 0]+camera_matrix[1, 1])/2
+
+    # print(camera_matrix, z_offset)
+
+    trans[2, 2] += z_offset
 
     # 5
     transform = np.matmul(camera_matrix, trans)
