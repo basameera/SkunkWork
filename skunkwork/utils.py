@@ -9,6 +9,12 @@ import string
 import json
 
 
+def info(obj):
+    print(type(obj))
+    if isinstance(obj, np.ndarray):
+        print(obj.shape, obj.dtype)
+
+
 def json_read(filename):
     with open(filename) as f_in:
         return(json.load(f_in))
@@ -62,7 +68,8 @@ def simple_cmd_args(cmd_params):
     params = arg_reform(cmd_params)
     # check if params is dict
     if isinstance(params, dict):
-        parser = argparse.ArgumentParser(description=__file__)
+        parser = argparse.ArgumentParser(
+            description='simple cmd args - by skunkwork')
         for key, value in params.items():
             parser.add_argument('-'+key, help=value[0], default=value[1])
         output = dict()
