@@ -10,6 +10,11 @@ import json
 from blessings import Terminal
 
 
+def makedirs(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
 def info(obj):
     print(type(obj))
     if isinstance(obj, np.ndarray):
@@ -49,22 +54,12 @@ def simple_cmd_args(cmd_params):
 
     # using dict
     cmd_params = dict(test=1,
-                      wait_length=0,
-                      stream_offset=0,
-                      stream_length=100,
-                      dataset_id=1,
-                      save='F')
+                      wait_length=0
+                      )
 
     args = simple_cmd_args(cmd_params)
+    test = int(args['test'])
 
-    Arguments:
-        cmd_params {[type]} -- [description]
-
-    Raises:
-        TypeError: [description]
-
-    Returns:
-        [type] -- [description]
     """
     params = arg_reform(cmd_params)
     # check if params is dict

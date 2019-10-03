@@ -12,7 +12,6 @@ import numpy as np
 
 
 def getSplitByPercentage(len=0, train_percentage=0.8):
-    warnings.warn('Arguments order has changed to (len, train_percentage).')
     if train_percentage > 0.0 and train_percentage < 1.0:
         train_p = int(train_percentage*len)
         valid_p = (len - train_p)//2
@@ -83,11 +82,7 @@ def model_summary(model, *input_size, batch_size=-1, device="cuda", show=True):
                     params += torch.prod(torch.LongTensor(list(module.bias.size())))
                 summary[m_key]["nb_params"] = params
 
-        if (
-            not isinstance(module, nn.Sequential)
-            and not isinstance(module, nn.ModuleList)
-            and not (module == model)
-        ):
+        if (not isinstance(module, nn.Sequential) and not isinstance(module, nn.ModuleList) and not (module == model)):
             hooks.append(module.register_forward_hook(hook))
 
     device = device.lower()

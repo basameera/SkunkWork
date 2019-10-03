@@ -7,6 +7,13 @@ def undistort_image(img, mtx, dist):
     return cv.undistort(img, mtx, dist, None)
 
 
+def resize_image_w_dim(img, dim=(320, 240), inter=cv.INTER_AREA):
+    '''
+    dim = (width, height)
+    '''
+    return cv.resize(img, dim, interpolation=inter)
+
+
 def resize_image(img, scale_percent=50):
     width = int(img.shape[1] * scale_percent / 100)
     height = int(img.shape[0] * scale_percent / 100)
