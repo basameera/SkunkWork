@@ -2,6 +2,11 @@ import cv2 as cv
 import numpy as np
 import warnings
 
+__all__ = ["undistort_image", "resize_image_w_dim", "resize_image", "crop_image_from_center",
+           "kernal_blur", "kernal_sharpen", "kernal_laplacian", "kernal_edge", "kernal_sobel_x", "kernal_sobel_x_right", "kernal_sobel_x_left", "kernal_sobel_y",
+           "kernal_sobel_y_bottom", "kernal_sobel_y_top", "normalize_kernal", "kernal_sobel_xy", "kernal_sobel_bottom_right", "kernal_sobel_bottom_left",
+           "convolution", "hsv_filter", "hstack", "eulerAnglesToRotationMatrix", "rotationMatrixToEulerAngles", "warp_image"]
+
 
 def undistort_image(img, mtx, dist):
     return cv.undistort(img, mtx, dist, None)
@@ -64,14 +69,6 @@ def kernal_sobel_x():
     return kernal_sobel_x_right()
 
 
-''' backup
-def kernal_sobel_x_right():
-    return np.array((
-        [-1, 0, 1],
-        [-2, 0, 2],
-        [-1, 0, 1]), dtype="int")'''
-
-
 def kernal_sobel_x_right():
     return np.array((
         [-1, 0, 1],
@@ -116,18 +113,6 @@ def kernal_sobel_y_top():
 
 def normalize_kernal(kernal):
     return kernal/np.sum(np.abs(kernal))
-
-
-def kernal_custom():
-    """top edge
-
-    Returns:
-        [type] -- [description]
-    """
-    return np.array((
-        [1, 2, 1],
-        [0, 0, 0],
-        [-1, -2, -1]), dtype="int")
 
 
 def kernal_sobel_xy():

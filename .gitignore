@@ -14,5 +14,7 @@
 
 /mainpackage/
 test_mainpackage.py
-
+tests
 TODO
+
+.package

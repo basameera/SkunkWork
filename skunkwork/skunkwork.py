@@ -1,3 +1,6 @@
+__all__ = ["swTest"]
+
+
 class swTest():
 
     def __init__(self):

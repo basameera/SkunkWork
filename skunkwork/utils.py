@@ -10,6 +10,9 @@ import json
 from blessings import Terminal
 import numpy as np
 
+__all__ = ["IoU", "makedirs", "info", "json_read", "json_write", "simple_cmd_args",
+           "clog", "pprint", "getListOfFiles", "convert_size", "getFolderSize"]
+
 
 def sample_function(a, b):
     """Sample Function
@@ -66,7 +69,7 @@ def json_write(filename, data):
         json.dump(data, outfile, ensure_ascii=False, indent=2)
 
 
-def arg_reform(params):
+def _arg_reform(params):
     alphabet = list(string.ascii_lowercase)
     alphabet.remove('h')
     if len(params) > 26:
@@ -96,7 +99,7 @@ def simple_cmd_args(cmd_params):
     test = int(args['test'])
 
     """
-    params = arg_reform(cmd_params)
+    params = _arg_reform(cmd_params)
     # check if params is dict
     if isinstance(params, dict):
         parser = argparse.ArgumentParser(
@@ -119,7 +122,7 @@ def clog(*args, end='\n'):
     print(msg, end=end)
 
 
-def printLine(len, symbol='=', end='\n'):
+def _printLine(len, symbol='=', end='\n'):
     if isinstance(len, int):
         for _ in range(len):
             print(symbol, end='')
@@ -128,7 +131,7 @@ def printLine(len, symbol='=', end='\n'):
         raise TypeError('Input should be an int value.')
 
 
-def getMaxLen(input, output, prev_indent=0):
+def _getMaxLen(input, output, prev_indent=0):
     if isinstance(input, dict):
         maxKeyLen = 0
         maxValLen = 0
@@ -144,8 +147,8 @@ def getMaxLen(input, output, prev_indent=0):
             klen = len(str(key))
 
             if isinstance(value, dict):
-                getMaxLen(value, output,
-                          prev_indent=prev_indent + maxKeyLen + 1)
+                _getMaxLen(value, output,
+                           prev_indent=prev_indent + maxKeyLen + 1)
             else:
                 if len(str(value)) > rawValLen:
                     rawValLen = len(str(value))
@@ -163,16 +166,18 @@ def pprint(input, heading=''):
     Arguments:
         input {dict}
 
+    Keyword Arguments:
+        heading {str} -- (default: {''})
     """
-    prettyPrint(input, heading=heading)
+    _prettyPrint(input, heading=heading)
 
 
-def prettyPrint(input, heading='', prev_indent=0):
+def _prettyPrint(input, heading='', prev_indent=0):
     terminal = Terminal()
     max_terminal_width = terminal.width
     if isinstance(input, dict):
         zzz = []
-        getMaxLen(input, zzz)
+        _getMaxLen(input, zzz)
         maxFooterLen = min([max(zzz), max_terminal_width])
         if max(zzz) > max_terminal_width:
             maxFooterLen -= 2
@@ -190,10 +195,10 @@ def prettyPrint(input, heading='', prev_indent=0):
             a += 2
         # header
         if prev_indent == 0:
-            printLine(int(a/2), end='')
+            _printLine(int(a/2), end='')
             if heading != '':
                 print('', heading, '', end='')
-            printLine(a - int(a/2))
+            _printLine(a - int(a/2))
 
         # data
         for key, value in input.items():
@@ -208,13 +213,13 @@ def prettyPrint(input, heading='', prev_indent=0):
 
             if isinstance(value, dict):
                 print('')
-                prettyPrint(value, prev_indent=prev_indent + maxKeyLen + 1)
+                _prettyPrint(value, prev_indent=prev_indent + maxKeyLen + 1)
             else:
                 print('', value)
 
         # footer
         if prev_indent == 0:
-            printLine(maxFooterLen + 2, symbol='-')
+            _printLine(maxFooterLen + 2, symbol='-')
 
     else:
         raise TypeError('Input should be a Dictionary object.')

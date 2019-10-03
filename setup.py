@@ -35,26 +35,30 @@ project_name = 'skunkwork'
 
 def read_req(project_name):
     req_list = []
-    fname = project_name + '/requirements.txt'
+    fname = 'requirements.txt'
     if os.path.isfile(fname):
         with open(fname) as f:
             content = f.readlines()
             for line in content:
                 req_list.append(line.split('==')[0])
     else:
-        raise AttributeError('No \'requirements.txt\' file. Please run \'./skunkwork/piprequire\' to generate it.')
+        raise AttributeError(
+            'No \'requirements.txt\' file. Please run \'bash pipreqs.sh\' to generate it.')
     return req_list
 
 
 dependancy_packages = read_req(project_name)
 
-setup(
-    name=project_name,
-    version = get_property('__version__', project_name),
-    description="Neural Network Trainer Package for Pytorch.",
-    url="https://github.com/basameera/SkunkWork",
-    author=get_property('__author__', project_name),
-    author_email=get_property('__author_email__', project_name),
-    packages=[project_name],
-    # install_requires=dependancy_packages
-)
+do_setup = False
+if do_setup:
+
+    setup(
+        name=project_name,
+        version=get_property('__version__', project_name),
+        description="Python support functions",
+        url="https://github.com/basameera/SkunkWork",
+        author=get_property('__author__', project_name),
+        author_email=get_property('__author_email__', project_name),
+        packages=[project_name],
+        # install_requires=dependancy_packages
+    )
