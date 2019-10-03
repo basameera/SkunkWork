@@ -1,0 +1,8 @@
+MAJOR = 0
+MINOR = 0
+BUILD = 3
+REVISION = 20191003
+
+VERSION = (MAJOR, MINOR, BUILD, REVISION)
+
+__version__ = ".".join(map(str, VERSION))
