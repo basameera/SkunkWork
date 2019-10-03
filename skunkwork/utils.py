@@ -8,6 +8,41 @@ import argparse
 import string
 import json
 from blessings import Terminal
+import numpy as np
+
+
+def sample_function(a, b):
+    """Sample Function
+
+    Addition of a and b
+
+    Arguments:
+        a {int} -- Description of a
+        b {int} -- Description of b
+
+    Returns:
+        int -- Description of return
+    """
+    return a + b
+
+
+def IoU(a, b):
+    """Intersection-over-Union
+
+    Arguments:
+        a {numpy array} -- [description]
+        b {numpy array} -- [description]
+
+    Returns:
+        float -- [description]
+    """
+    P, T = a.astype(np.int8), b.astype(np.int8)
+    bw_and = np.bitwise_and(P, T)
+    bw_xor = np.bitwise_xor(P, T)
+    TP = np.sum(bw_and)
+    FP_FN = np.sum(bw_xor)
+    IoU = TP / (TP + FP_FN)
+    return IoU
 
 
 def makedirs(path):
