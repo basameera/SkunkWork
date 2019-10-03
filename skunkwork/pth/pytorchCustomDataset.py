@@ -1,12 +1,7 @@
 """Pytorch Custom Dataset"""
 
-'''
-To Do
-* Resize images
-* without split - two folders for training and test data is already supplied
-'''
 
-
+__all__ = ["testClass"]
 
 
 import torch
@@ -21,12 +16,14 @@ from .utils import getSplitByPercentage
 import pandas as pd
 import numpy as np
 
+
 class testClass():
     def __init__(self, name):
         self.name = name
 
     def getName(self):
         clog(self.name)
+
 
 class ImageClassDatasetFromFolder(Dataset):
     """From Tutorial - https://totoys.github.io/posts/2019-4-10-what-is-torch.utils.data.Dataset-really/
@@ -108,9 +105,6 @@ class ImageClassDatasetFromFolder(Dataset):
         return self.inverse_classes
 
 
-# template
-
-
 class customClassTemplate(Dataset):
     def __init__(self, path):
         self.path = path
@@ -135,38 +129,6 @@ class customClassTemplate(Dataset):
         return item, label
 
 
-# class MyCustomDataset(Dataset):
-#     def __init__(self, transforms=None):
-#         # stuff
-
-#         self.transforms = transforms
-
-#     def __getitem__(self, index):
-#         # stuff
-
-
-#         if self.transforms is not None:
-#             data = self.transforms(data)
-#         # If the transform variable is not empty
-#         # then it applies the operations in the transforms with the order that it is created.
-#         return (img, label)
-
-#     def __len__(self):
-#         return count # of how many data(images?) you have
-
-def readCSVfile(path):
-    data = pd.read_csv(path)
-    data = data[['quizzes', 'solutions']].values
-    x, t = data[0, 0], data[0, 1]
-    xd, td = [], []
-    for n in range(len(x)):
-        xd.append(int(x[n]))
-        td.append(int(t[n]))
-
-    xd, td = np.array(xd).reshape((1, 9, 9)), np.array(td).reshape((1, 9, 9))
-    print(xd.shape)
-
-
 class datasetFromCSV(Dataset):
     def __init__(self, path):
         self.data = pd.read_csv(path)
@@ -181,28 +143,9 @@ class datasetFromCSV(Dataset):
         for n in range(len(x)):
             xd.append(int(x[n]))
             td.append(int(t[n]))
-        xd, td = torch.tensor(xd, dtype=torch.float), torch.tensor(td, dtype=torch.float)
+        xd, td = torch.tensor(xd, dtype=torch.float), torch.tensor(
+            td, dtype=torch.float)
         return xd, td  # x, target
-
-class datasetFromCSV_2D(Dataset):
-    def __init__(self, path):
-        self.data = pd.read_csv(path)
-        self.data = self.data[['quizzes', 'solutions']].values
-
-    def __len__(self):
-        return self.data.shape[0]
-
-    def __getitem__(self, index):
-        x, t = self.data[index, 0], self.data[index, 1]
-        xd, td = [], []
-        for n in range(len(x)):
-            xd.append(int(x[n]))
-            td.append(int(t[n]))
-        xd, td = np.array(xd).reshape((1, 9, 9)), np.array(td).reshape((1, 9, 9))
-        xd, td = torch.tensor(xd, dtype=torch.float), torch.tensor(td, dtype=torch.float)
-        return xd, td  # x, target
-
-# main funciton
 
 
 def main():

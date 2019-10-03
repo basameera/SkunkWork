@@ -10,6 +10,8 @@ from torch.autograd import Variable
 from collections import OrderedDict
 import numpy as np
 
+__all__ = ["getSplitByPercentage", "model_summary"]
+
 
 def getSplitByPercentage(len=0, train_percentage=0.8):
     if train_percentage > 0.0 and train_percentage < 1.0:
@@ -48,8 +50,6 @@ def imgResize(source_folder='data', destination_folder='save', size=256, keep_as
         print(id, ' | ', (width, height), ' -> ', new_size,
               ' | ', os.path.basename(path), '\t\t-> ', fname)
         im.save(fname)
-
-# pytorch model summary
 
 
 def model_summary(model, *input_size, batch_size=-1, device="cuda", show=True):

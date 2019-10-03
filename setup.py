@@ -14,7 +14,7 @@ Full Package Structure - https://python-packaging.readthedocs.io/en/latest/every
 
 3. Uninstall script
 
-`pip install skunkwork`
+`pip uninstall skunkwork`
 
 '''
 

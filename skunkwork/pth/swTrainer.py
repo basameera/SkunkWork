@@ -16,11 +16,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # custom classes and functions
+__all__ = ["testClass", "nnTrainer"]
 
 all_metrics = [
     'loss',
     'accuracy'
 ]
+
 
 class testClass():
     def __init__(self, name):
@@ -28,6 +30,7 @@ class testClass():
 
     def getName(self):
         clog(self.name)
+
 
 class nnTrainer():
 
@@ -186,13 +189,11 @@ class nnTrainer():
                 pred = output.argmax(dim=1, keepdim=True)
                 correct += pred.eq(target.view_as(pred)).sum().item()
 
-
             # for crossEntropy
             self.valid_loss /= len(validation_loader.dataset)
 
             # Adding loss to history
             self.valid_loss_hist.append(self.valid_loss)
-
 
         if show_progress:
             clog('{} set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
@@ -222,7 +223,7 @@ class nnTrainer():
                 epochs,
                 self.train_loss_hist[-1],
                 self.valid_loss_hist[-1]
-                ))
+            ))
 
             # Possibly saving model
             if save_best:
