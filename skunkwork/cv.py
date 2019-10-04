@@ -1,11 +1,16 @@
+"""
+SkunkWork Computer Vision
+=========================
+
+"""
 import cv2 as cv
 import numpy as np
 import warnings
 
-__all__ = ["undistort_image", "resize_image_w_dim", "resize_image", "crop_image_from_center",
-           "kernal_blur", "kernal_sharpen", "kernal_laplacian", "kernal_edge", "kernal_sobel_x", "kernal_sobel_x_right", "kernal_sobel_x_left", "kernal_sobel_y",
-           "kernal_sobel_y_bottom", "kernal_sobel_y_top", "normalize_kernal", "kernal_sobel_xy", "kernal_sobel_bottom_right", "kernal_sobel_bottom_left",
-           "convolution", "hsv_filter", "hstack", "eulerAnglesToRotationMatrix", "rotationMatrixToEulerAngles", "warp_image"]
+__all__ = ["undistort_image", "resize_image_w_dim", "resize_image", "crop_image_from_center", "kernal_blur", "kernal_sharpen", "kernal_laplacian",
+           "kernal_edge", "kernal_sobel_x", "kernal_sobel_x_right", "kernal_sobel_x_left", "kernal_sobel_y", "kernal_sobel_y_bottom", "kernal_sobel_y_top",
+           "normalize_kernal", "kernal_sobel_xy", "kernal_sobel_bottom_right", "kernal_sobel_bottom_left", "convolution", "hsv_filter", "hstack",
+           "eulerAnglesToRotationMatrix", "rotationMatrixToEulerAngles", "warp_image"]
 
 
 def undistort_image(img, mtx, dist):

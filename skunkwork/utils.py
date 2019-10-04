@@ -1,4 +1,8 @@
-"""SkunkWork Utils"""
+"""
+SkunkWork Utils
+===============
+
+"""
 import os
 import datetime
 import warnings
@@ -16,6 +20,9 @@ __all__ = ["IoU", "makedirs", "info", "json_read", "json_write", "simple_cmd_arg
 
 def sample_function(a, b):
     """Sample Function
+
+    BIG
+    ===
 
     Addition of a and b
 
@@ -90,14 +97,15 @@ def _arg_reform(params):
 def simple_cmd_args(cmd_params):
     """[summary]
 
-    # using dict
-    cmd_params = dict(test=1,
-                      wait_length=0
-                      )
+    Usage:
+        
+        cmd_params = dict(test=1,
+                        wait_length=0
+                        )
 
-    args = simple_cmd_args(cmd_params)
-    test = int(args['test'])
-
+        args = simple_cmd_args(cmd_params)
+        test = int(args['test'])
+        
     """
     params = _arg_reform(cmd_params)
     # check if params is dict
