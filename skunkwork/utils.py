@@ -22,7 +22,7 @@ def sample_function(a, b):
     """Sample Function
 
     BIG
-    ===
+    ---
 
     Addition of a and b
 
@@ -111,7 +111,7 @@ def simple_cmd_args(cmd_params):
     # check if params is dict
     if isinstance(params, dict):
         parser = argparse.ArgumentParser(
-            description='simple cmd args - by skunkwork')
+            description='*** Simple cmd args - by skunkwork ***')
         for key, value in params.items():
             parser.add_argument('-'+key, help=value[0], default=value[1])
         output = dict()

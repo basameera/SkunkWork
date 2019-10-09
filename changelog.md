@@ -3,6 +3,20 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.3] - 2019-10-03
+
+### Added
+
+* Auto increment revision number with commits.
+
+### Changed
+
+* 
+
+### Removed
+
+* 
+
 ## [0.0.3] - 2019-10-03
 
 ### Added
@@ -21,6 +35,8 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 * 
+
+---
 
 **Note**
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 

@@ -17,6 +17,13 @@ echo
 echo ===== Easy-Git =====
 echo
 
+version_revision() {
+    today=$(date +"%y%m%d")
+    file="skunkwork/version_revision.py"
+    rm -f $file
+    echo REVISION = $today >>$file
+}
+
 if [ $# -gt 0 ]; then
     # echo "Method 1"
     case "$1" in
@@ -45,6 +52,8 @@ if [ $# -gt 0 ]; then
         shift
         echo "*** Only git add & commit"
         echo
+
+        version_revision
 
         if [ $# -eq 1 ]; then
             echo ">>" "Commit message:" "$1"
@@ -101,7 +110,9 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ $# -eq 1 ]; then
-    # echo "Method 3"
+    
+    version_revision
+
     echo ">>" "Commit message:" "$1"
     echo
     echo

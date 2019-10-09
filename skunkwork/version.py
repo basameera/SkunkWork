@@ -1,7 +1,8 @@
+from . import version_revision as vr
 MAJOR = 0
-MINOR = 0
+MINOR = 1
 BUILD = 3
-REVISION = 20191003
+REVISION = vr.REVISION
 
 VERSION = (MAJOR, MINOR, BUILD, REVISION)
 

@@ -1,5 +1,6 @@
 """SkunkWork Pytorch Utils"""
 from PIL import Image
+import skunkwork
 import warnings
 from ..utils import getListOfFiles
 import os
@@ -13,11 +14,20 @@ import numpy as np
 __all__ = ["getSplitByPercentage", "model_summary"]
 
 
-def getSplitByPercentage(len=0, train_percentage=0.8):
+def getSplitByPercentage(len=0, train_percentage=0.8, n_output=skunkwork.SPLIT_LEVEL_3):
     if train_percentage > 0.0 and train_percentage < 1.0:
-        train_p = int(train_percentage*len)
-        valid_p = (len - train_p)//2
-        return [train_p, valid_p, len - train_p - valid_p]
+        if n_output == 3:
+            # train, val, test
+            train_p = int(train_percentage*len)
+            valid_p = (len - train_p)//2
+            return [train_p, valid_p, len - train_p - valid_p]
+        elif n_output == 2:
+            # train, val
+            train_p = int(train_percentage*len)
+            valid_p = (len - train_p)
+            return [train_p, valid_p]
+        else:
+            raise ValueError('n_output is either 2 or 3.')
     else:
         raise ValueError('Value should be between 0 and 1.')
 
@@ -127,12 +137,11 @@ def model_summary(model, *input_size, batch_size=-1, device="cuda", show=True):
 
     mdl_layers.append(('Input', '[{}, {}, {}, {}]'.format(
         batch_size, input_size[0][0], input_size[0][1], input_size[0][2]), '0'))
-    print("{:>20}  {:>25} {:>15}".format(
-        'Input',
-        '[{}, {}, {}, {}]'.format(
-            batch_size, input_size[0][0], input_size[0][1], input_size[0][2]),
-        '0')
-    )
+    if show:
+        print("{:>20}  {:>25} {:>15}".format(
+            'Input', '[{}, {}, {}, {}]'.format(batch_size, input_size[0][0],
+                                               input_size[0][1], input_size[0][2]), '0')
+              )
     for layer in summary:
         # input_shape, output_shape, trainable, nb_params
         line_new = "{:>20}  {:>25} {:>15}".format(

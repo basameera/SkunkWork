@@ -11,9 +11,10 @@ Using matplotlib
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-from linalg import *
+from .linalg import *
 
-__all__ = ["draw_3D_ref_frames_headless", ]
+__all__ = ["draw_3D_ref_frames_headless",
+           "get_world_frame_cont_data", "get_point_array_world", "get_drone_points", "get_drone_array_world"]
 
 
 def getAxes(unit_ax=1.0):
@@ -40,6 +41,47 @@ def rotate_axes(point, R, unit_ax=1.0):
     uy = np.concatenate((point, a_y), axis=0).T
     uz = np.concatenate((point, a_z), axis=0).T
     return ux, uy, uz
+
+
+def get_world_frame_cont_data(factor_T=1.0):
+    size = 4
+    t = np.empty(shape=(size, 1, 3))
+    R = np.empty(shape=(size, 3, 3))
+
+    t[0] = np.zeros(shape=(1, 3))
+    R[0] = np.identity(3)
+
+    # change w/ z
+    # x, y, z
+    alpha, beta, gamma = 0, 0, 30
+    euler_angles = np.radians([alpha, beta, gamma])
+    rot = eulerAnglesToRotationMatrix(euler_angles)
+    t[1] = np.array([1, 0, 0]).reshape(1, -1)*factor_T
+    # t[1] = np.ones((1, 3))*0.5
+    if isRotationMatrix(rot):
+        R[1] = rot
+
+    # change w/ y
+    # x, y, z
+    alpha, beta, gamma = 0, 0, 60
+    euler_angles = np.radians([alpha, beta, gamma])
+    rot = eulerAnglesToRotationMatrix(euler_angles)
+    t[2] = np.array([2, 0, 0]).reshape(1, -1)*factor_T
+    # t[2] = np.ones((1, 3))*1.0
+    if isRotationMatrix(rot):
+        R[2] = rot
+
+    # change w/ x
+    # x, y, z
+    alpha, beta, gamma = 0, 0, 90
+    euler_angles = np.radians([alpha, beta, gamma])
+    rot = eulerAnglesToRotationMatrix(euler_angles)
+    t[3] = np.array([3, 0, 0]).reshape(1, -1)*factor_T
+    # t[3] = np.ones((1, 3))*1.5
+    if isRotationMatrix(rot):
+        R[3] = rot
+
+    return R, t
 
 
 def draw_3D_ref_frames_with_Rt(translations, rotations, unit_ax=1.0, scale_axes=True, show_label=True, figsize=None, show_plot=False):
@@ -239,12 +281,14 @@ def Rt_drone(dx, dy, R, t):
     """[summary]
 
     Arguments:
+    ---
         dx {[type]} -- [3,2]
         dy {[type]} -- [3,2]
         R {[type]} -- [3,3]
         t {[type]} -- [1,3]
 
     Returns:
+    ---
         [type] -- [description]
     """
     assert(R.shape == (3, 3))
