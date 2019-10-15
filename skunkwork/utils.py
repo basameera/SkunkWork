@@ -11,10 +11,11 @@ import math
 import argparse
 import string
 import json
+import yaml
 from blessings import Terminal
 import numpy as np
 
-__all__ = ["IoU", "makedirs", "info", "json_read", "json_write", "simple_cmd_args",
+__all__ = ["IoU", "makedirs", "info", "json_read", "json_write", "yaml_read", "yaml_write", "simple_cmd_args",
            "clog", "pprint", "getListOfFiles", "convert_size", "getFolderSize"]
 
 
@@ -66,6 +67,16 @@ def info(obj):
         print(obj.shape, obj.dtype)
 
 
+def yaml_write(filename, data):
+    with open(filename, 'w') as outfile:
+        yaml.dump(data, outfile, default_flow_style=False)
+
+
+def yaml_read(filename):
+    with open(filename) as file:
+        return yaml.load(file, Loader=yaml.FullLoader)
+
+
 def json_read(filename):
     with open(filename) as f_in:
         return(json.load(f_in))
@@ -98,14 +109,14 @@ def simple_cmd_args(cmd_params):
     """[summary]
 
     Usage:
-        
+
         cmd_params = dict(test=1,
                         wait_length=0
                         )
 
         args = simple_cmd_args(cmd_params)
         test = int(args['test'])
-        
+
     """
     params = _arg_reform(cmd_params)
     # check if params is dict
