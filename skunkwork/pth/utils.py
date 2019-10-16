@@ -186,9 +186,9 @@ def model_summary(model, *input_size, batch_size=-1, device="cuda", show=True):
     mdl_summary['total_params'] = float(total_params.numpy())
     mdl_summary['trainable_params'] = float(trainable_params.numpy())
 
-    mdl_summary['total_input_size_MB'] = total_input_size
-    mdl_summary['total_output_size_MB'] = total_output_size
-    mdl_summary['total_params_size_MB'] = total_params_size
+    mdl_summary['total_input_size_MB'] = float(total_input_size)
+    mdl_summary['total_output_size_MB'] = float(total_output_size)
+    mdl_summary['total_params_size_MB'] = float(total_params_size)
 
     return mdl_summary
 

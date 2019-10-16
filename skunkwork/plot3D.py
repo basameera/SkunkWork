@@ -13,8 +13,15 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from .linalg import *
 
-__all__ = ["draw_3D_ref_frames_headless",
+__all__ = ["draw_3D_ref_frames_headless", "get_origin_point",
            "get_world_frame_cont_data", "get_point_array_world", "get_drone_points", "get_drone_array_world"]
+
+
+def get_origin_point(scale=1.0):
+    return np.vstack(
+        (np.zeros(shape=(1, 3)),
+         np.identity(3)*scale)
+    )
 
 
 def getAxes(unit_ax=1.0):
