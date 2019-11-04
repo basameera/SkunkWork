@@ -141,7 +141,7 @@ def draw_3D_ref_frames_with_Rt(translations, rotations, unit_ax=1.0, scale_axes=
 
 
 def draw_3D_ref_frames_headless(point_array, drone_array=None, drone_shape='x', scale_axes=True, show_label=True, figsize=None, show_plot=True, title='',
-                                marker='.', start_marker_size=1, drone_scale=1.0):
+                                marker='.', start_marker_size=1, drone_scale=1.0, tight=False):
     """[summary]
 
     Arguments:
@@ -184,8 +184,10 @@ def draw_3D_ref_frames_headless(point_array, drone_array=None, drone_shape='x', 
             dy = drone_array[1, n]
             draw_drone(ax, dx, dy, drone_shape=drone_shape,
                        drone_scale=drone_scale)
-
+    if tight:
+        plt.tight_layout()
     if scale_axes:
+
         # get axis limits
         max_scale = np.max(np.vstack((np.diff(np.array(ax.get_xlim())), np.diff(
             np.array(ax.get_ylim())), np.diff(np.array(ax.get_zlim3d())))))
@@ -200,6 +202,7 @@ def draw_3D_ref_frames_headless(point_array, drone_array=None, drone_shape='x', 
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
     ax.set_title(title)
+    plt.legend(['X', 'Y', 'Z'])
 
     if show_plot:
         plt.show()

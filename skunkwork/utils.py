@@ -15,8 +15,12 @@ import yaml
 from blessings import Terminal
 import numpy as np
 
-__all__ = ["IoU", "makedirs", "info", "json_read", "json_write", "yaml_read", "yaml_write", "simple_cmd_args",
+__all__ = ["rmse", "IoU", "makedirs", "info", "json_read", "json_write", "yaml_read", "yaml_write", "simple_cmd_args",
            "clog", "pprint", "getListOfFiles", "convert_size", "getFolderSize"]
+
+
+def rmse(target, prediction):
+    return np.sqrt(np.mean((prediction-target)**2, axis=0))
 
 
 def sample_function(a, b):

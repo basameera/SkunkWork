@@ -135,11 +135,11 @@ def model_summary(model, *input_size, batch_size=-1, device="cuda", show=True):
 
     mdl_layers = []
 
-    mdl_layers.append(('Input', '[{}, {}, {}, {}]'.format(
+    mdl_layers.append(('Input-0', '[{}, {}, {}, {}]'.format(
         batch_size, input_size[0][0], input_size[0][1], input_size[0][2]), '0'))
     if show:
         print("{:>20}  {:>25} {:>15}".format(
-            'Input', '[{}, {}, {}, {}]'.format(batch_size, input_size[0][0],
+            'Input-0', '[{}, {}, {}, {}]'.format(batch_size, input_size[0][0],
                                                input_size[0][1], input_size[0][2]), '0')
               )
     for layer in summary:

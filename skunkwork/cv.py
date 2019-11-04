@@ -14,6 +14,16 @@ __all__ = ["undistort_image", "resize_image_w_dim", "resize_image", "crop_image_
 
 
 def undistort_image(img, mtx, dist):
+    """[summary]
+    
+    Arguments:
+        img {[type]} -- [description]
+        mtx {[type]} -- [description]
+        dist {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
+    """
     return cv.undistort(img, mtx, dist, None)
 
 

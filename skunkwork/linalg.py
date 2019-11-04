@@ -2,10 +2,6 @@
 SkunkWork Linear Algebra
 ========================
 
-
-get matrix stuff from 
-/home/sameera/Github/msc-thesis-work/Feature tracking test/plot_3D.py'
-
 """
 import numpy as np
 
@@ -22,7 +18,7 @@ def isRotationMatrix(R):
 
 
 def eulerAnglesToRotationMatrix(theta, deg=False):
-    """euler convenstion = X-Y-Y (alpha, beta, gamma)
+    """euler convenstion = X-Y-Z (alpha, beta, gamma)
 
     Arguments:
         theta {int array} -- [(alpha, beta, gamma)]
@@ -50,11 +46,11 @@ def eulerAnglesToRotationMatrix(theta, deg=False):
                     ])
 
     R = np.dot(R_z, np.dot(R_y, R_x))
-
+    assert(isRotationMatrix(R))
     return R
 
 
-def rotationMatrixToEulerAngles(R):
+def rotationMatrixToEulerAngles(R, confirm_R=True):
     """
     X-Y-Z
     =====
@@ -65,7 +61,8 @@ def rotationMatrixToEulerAngles(R):
     Returns:
         x, y, z -- Euler angles
     """
-    assert(isRotationMatrix(R))
+    if confirm_R:
+        assert(isRotationMatrix(R))
 
     sy = np.sqrt(R[0, 0] * R[0, 0] + R[1, 0] * R[1, 0])
 
