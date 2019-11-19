@@ -24,14 +24,8 @@ Full Package Structure - https://python-packaging.readthedocs.io/en/latest/every
 from setuptools import setup
 import os
 import re
-def get_property(prop, project):
-    result = re.search(
-        r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open(project + '/__init__.py').read())
-    return result.group(1)
-
 
 project_name = 'skunkwork'
-
 
 def read_req(project_name):
     req_list = []
@@ -49,16 +43,16 @@ def read_req(project_name):
 
 dependancy_packages = read_req(project_name)
 
-do_setup = False
+do_setup = True
 if do_setup:
 
     setup(
         name=project_name,
-        version=get_property('__version__', project_name),
+        version='0.1.3.191116',
         description="Python support functions",
         url="https://github.com/basameera/SkunkWork",
-        author=get_property('__author__', project_name),
-        author_email=get_property('__author_email__', project_name),
+        author='Sameera Sandaruwan',
+        author_email='basameera@pm.me',
         packages=[project_name],
         # install_requires=dependancy_packages
     )
