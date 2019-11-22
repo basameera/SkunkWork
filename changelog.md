@@ -5,17 +5,22 @@ All notable changes to this project will be documented in this file.
 
 ## [0.1.3] - 2019-10-03
 
-### Added
-
-* Auto increment revision number with commits.
-
 ### Changed
 
-* 
+* Updated setup.py - Don't automate too much (get_property func. was a problem.)
 
 ### Removed
 
-* 
+* djitello
+* Unnecessary files from package
+
+## [Unreleased]
+
+## [0.1.3] - 2019-10-03
+
+### Added
+
+* Auto increment revision number with commits.
 
 ## [0.0.3] - 2019-10-03
 

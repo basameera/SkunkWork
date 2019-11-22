@@ -190,7 +190,7 @@ def clog(*args, end='\n', verbose='DEBUG'):
 
     Keyword Arguments:
         end {str} -- [description] (default: {'\\n'})
-        verbose {str} -- [DEBUG, INFO, WARNING, ERROR, CRITICAL] (default: {'DEBUG'})
+        verbose {str} -- [DEBUG, INFO, WARNING, ERROR, CRITICAL, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN] (default: {'DEBUG'})
     """
     if verbose == 'DEBUG':
         _print(*args, end=end)
@@ -202,6 +202,19 @@ def clog(*args, end='\n', verbose='DEBUG'):
         _error(*args, end=end)
     elif verbose == 'CRITICAL':
         _critical(*args, end=end)
+
+    elif verbose == 'RED':
+        _red(*args, end=end)
+    elif verbose == 'GREEN':
+        _green(*args, end=end)
+    elif verbose == 'YELLOW':
+        _yellow(*args, end=end)
+    elif verbose == 'BLUE':
+        _blue(*args, end=end)
+    elif verbose == 'MAGENTA':
+        _magenta(*args, end=end)
+    elif verbose == 'CYAN':
+        _cyan(*args, end=end)
 
 
 def _info(*args, end='\n'):
@@ -218,6 +231,30 @@ def _error(*args, end='\n'):
 
 def _critical(*args, end='\n'):
     _print(*args, end=end, header=vcolors.CRITICAL, footer=tformat.ENDC)
+
+
+def _red(*args, end='\n'):
+    _print(*args, end=end, header=tcolors.FG_RED, footer=tformat.ENDC)
+
+
+def _green(*args, end='\n'):
+    _print(*args, end=end, header=tcolors.FG_GREEN, footer=tformat.ENDC)
+
+
+def _yellow(*args, end='\n'):
+    _print(*args, end=end, header=tcolors.FG_YELLOW, footer=tformat.ENDC)
+
+
+def _blue(*args, end='\n'):
+    _print(*args, end=end, header=tcolors.FG_BLUE, footer=tformat.ENDC)
+
+
+def _magenta(*args, end='\n'):
+    _print(*args, end=end, header=tcolors.FG_MAGENTA, footer=tformat.ENDC)
+
+
+def _cyan(*args, end='\n'):
+    _print(*args, end=end, header=tcolors.FG_CYAN, footer=tformat.ENDC)
 
 
 def _print(*args, end='\n', header='', footer=''):
