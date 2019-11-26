@@ -181,7 +181,7 @@ def model_summary(model, *input_size, batch_size=-1, device="cuda", show=True):
         print("Estimated Total Size (MB): %0.2f" % total_size)
         print("----------------------------------------------------------------\n")
 
-    mdl_summary = dict()
+    mdl_summary = OrderedDict()
     mdl_summary['layers'] = mdl_layers
     mdl_summary['total_params'] = float(total_params.numpy())
     mdl_summary['trainable_params'] = float(trainable_params.numpy())

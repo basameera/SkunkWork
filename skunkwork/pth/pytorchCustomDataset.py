@@ -15,7 +15,7 @@ from ..utils import getListOfFiles, clog
 from .utils import getSplitByPercentage
 import pandas as pd
 import numpy as np
-
+from collections import OrderedDict
 
 class testClass():
     def __init__(self, name):
@@ -34,16 +34,16 @@ class ImageClassDatasetFromFolder(Dataset):
         self.int_classes = int_classes
         self.norm_data = norm_data
         cls = sorted(os.listdir(path))
-        self.classes = dict()
+        self.classes = OrderedDict()
         for i, c in enumerate(cls):
             self.classes.update({c: i})
 
-        self.inverse_classes = dict()
+        self.inverse_classes = OrderedDict()
         for key, val in self.classes.items():
             self.inverse_classes.update({val: key})
 
         # self.data_list = {'path/filename.ext', <int or str class>}
-        self.data_list = dict()
+        self.data_list = OrderedDict()
         self.fileList = []
         for key, value in self.classes.items():
             tempList = getListOfFiles(path+'/'+key)
@@ -109,10 +109,10 @@ class customClassTemplate(Dataset):
     def __init__(self, path):
         self.path = path
         cls = sorted(os.listdir(path))
-        self.classes = dict()
+        self.classes = OrderedDict()
         for i, c in enumerate(cls):
             self.classes.update({c: i})
-        self.data_list = dict()
+        self.data_list = OrderedDict()
         for c in cls:
             file_names = sorted(os.listdir(os.path.join(path, c)))
             for file_name in file_names:

@@ -14,6 +14,7 @@ from torch import cuda
 # Importing other libraries
 import numpy as np
 import matplotlib.pyplot as plt
+from collections import OrderedDict
 
 # custom classes and functions
 __all__ = ["testClass", "nnTrainer"]
@@ -205,7 +206,7 @@ class nnTrainer():
             ))
 
     def fit(self, training_loader, validation_loader=None, epochs=2, show_progress=True, save_best=False, save_plot=False):
-        history = dict()
+        history = OrderedDict()
         # Helpers
         best_validation = 1e5
 
@@ -252,7 +253,7 @@ class nnTrainer():
     def save_loss(self):
         path = self.results_path + '/' + self.model_name + '_loss_data.json'
         clog('Saving Loss to file:', path)
-        data = dict()
+        data = OrderedDict()
         data['train_loss'] = self.train_loss_hist
         data['valid_loss'] = self.valid_loss_hist
 

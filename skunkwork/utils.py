@@ -14,6 +14,7 @@ import json
 import yaml
 from blessings import Terminal
 import numpy as np
+from collections import OrderedDict
 
 __all__ = ["rmse", "IoU", "makedirs", "info", "json_read", "json_write", "yaml_read", "yaml_write", "simple_cmd_args",
            "clog", "pprint", "getListOfFiles", "convert_size", "getFolderSize"]
@@ -147,7 +148,7 @@ def _arg_reform(params):
         return
 
     if isinstance(params, dict):
-        arg_dict = dict()
+        arg_dict = OrderedDict()
         for i, (key, value) in enumerate(params.items()):
             arg_dict[alphabet[i]] = (
                 key + ' (default: {})'.format(value), value)
@@ -161,7 +162,7 @@ def simple_cmd_args(cmd_params):
 
     Usage:
 
-        cmd_params = dict(test=1,
+        cmd_params = OrderedDict(test=1,
                         wait_length=0
                         )
 
@@ -176,9 +177,9 @@ def simple_cmd_args(cmd_params):
             description='*** Simple cmd args - by skunkwork ***')
         for key, value in params.items():
             parser.add_argument('-'+key, help=value[0], default=value[1])
-        output = dict()
+        output = OrderedDict()
 
-        for key1, key2 in dict(zip(cmd_params, parser.parse_args().__dict__)).items():
+        for key1, key2 in OrderedDict(zip(cmd_params, sorted(parser.parse_args().__dict__))).items():
             output[key1] = parser.parse_args().__dict__[key2]
         return output
     else:
