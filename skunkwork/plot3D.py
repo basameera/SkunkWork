@@ -13,7 +13,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from .linalg import *
 
-__all__ = ["draw_3D_ref_frames_headless", "get_origin_point",
+__all__ = ["draw_3D_ref_frames_headless", "get_origin_point", "plot_3d_drone", "sample_3d_ref_plotting",
            "get_world_frame_cont_data", "get_point_array_world", "get_drone_points", "get_drone_array_world"]
 
 
@@ -390,7 +390,7 @@ def plot_3d_drone():
 
     if show_plot:
         plt.show()
-    print('sdfsfsddfsf')
+    # print('sdfsfsddfsf')
 
 
 def _get_world_frame_cont_data(factor_T=1.0):
@@ -452,8 +452,7 @@ def get_drone_array_world(dx, dy, R_w, t_w):
     return drone_array
 
 
-def _sample_3d_ref_plotting():
-    size = 1
+def sample_3d_ref_plotting(size = 10):
     t = np.empty(shape=(size, 1, 3))
     R = np.empty(shape=(size, 3, 3))
 
