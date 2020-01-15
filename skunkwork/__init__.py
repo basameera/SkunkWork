@@ -15,6 +15,9 @@ from .linalg import *
 from . import plot3D
 from .plot3D import *
 
+from . import metrics
+from .metrics import *
+
 from .version import __version__
 
 __all__ = []
@@ -23,6 +26,7 @@ __all__.extend(utils.__all__)
 __all__.extend(cv.__all__)
 __all__.extend(linalg.__all__)
 __all__.extend(plot3D.__all__)
+__all__.extend(metrics.__all__)
 
 __version__ = __version__
 __author__ = 'Sameera Sandaruwan'
