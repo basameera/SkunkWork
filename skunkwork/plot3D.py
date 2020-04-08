@@ -141,7 +141,7 @@ def draw_3D_ref_frames_with_Rt(translations, rotations, unit_ax=1.0, scale_axes=
 
 
 def draw_3D_ref_frames_headless(point_array, drone_array=None, drone_shape='x', scale_axes=True, show_label=True, figsize=None, show_plot=True, title='',
-                                marker='.', start_marker_size=1, drone_scale=1.0, tight=False):
+                                marker='.', start_marker_size=1, drone_scale=1.0, tight=False, save_filename=None):
     """[summary]
 
     Arguments:
@@ -203,6 +203,9 @@ def draw_3D_ref_frames_headless(point_array, drone_array=None, drone_shape='x', 
     ax.set_zlabel('Z')
     ax.set_title(title)
     plt.legend(['X', 'Y', 'Z'])
+
+    if save_filename is not None:
+        plt.savefig(save_filename, dpi=300)
 
     if show_plot:
         plt.show()
