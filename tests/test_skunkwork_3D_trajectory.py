@@ -1,3 +1,4 @@
+import setup_path
 import skunkwork
 
 from skunkwork.skunkwork import *
